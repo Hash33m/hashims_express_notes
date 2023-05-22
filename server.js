@@ -8,6 +8,18 @@ const app = express()
 let PORT = process.env.PORT || 8000
 
 app.use(express.json());
+app.use(express.static(path.join(__dirname, "public")));
+
+app.get("/notes", (req, res) => {
+  console.log("created a notes route");
+  res.sendFile(path.join(__dirname, "public", "notes.html"));
+});
+
+app.get("*", (req, res) => {
+  console.log("created a html route");
+  res.sendFile(path.join(__dirname, "public", "index.html"));
+});
+
 
 app.get("/api/notes", async (req, res) => {
   try {
@@ -16,7 +28,7 @@ app.get("/api/notes", async (req, res) => {
     res.status(200).json(notes);
   } catch (error) {
     console.error("Error reading db.json:", error);
-    res.status(500).send("Internal Server Error");
+    res.status(500).send("Error retrieving notes from the server");
   }
 });
 
@@ -37,7 +49,7 @@ app.get("/api/notes/:id", async (req, res) => {
     res.status(200).json(note);
   } catch (error) {
     console.error("Error reading db.json:", error);
-    res.status(500).send("Internal Server Error");
+    res.status(500).send("Error retrieving note from the server");
   }
 });
 
