@@ -3,6 +3,7 @@ const path = require("path");
 const express = require("express");
 const db = require("./db/db.json");
 const routes = require("./routes");
+const PORT = process.env || 8000;
 
 const app = express();
 
